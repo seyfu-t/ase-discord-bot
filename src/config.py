@@ -10,12 +10,15 @@ REQUIRED_ENV_VARS = [
     "DISCORD_TOKEN",
 ]
 
+
 def check_env_vars():
     missing_vars = [var for var in REQUIRED_ENV_VARS if not os.getenv(var)]
-    
+
     if missing_vars:
-        logger.error(f"Missing required environment variables: {', '.join(missing_vars)}")
+        logger.error(
+            f"Missing environment variables: {', '.join(missing_vars)}")
         sys.exit(1)
+
 
 class Config:
     TMDB_API_KEY = os.getenv("TMDB_API_KEY")
