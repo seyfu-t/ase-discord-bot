@@ -1,0 +1,4 @@
+[project]
+name = "ase-discord-bot"
+version = "0.0.1"
+description = "Discord bot that provides movie/series recommendations"
