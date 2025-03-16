@@ -4,7 +4,7 @@ version = "0.0.1"
 description = "Discord bot that provides movie/series recommendations"
 license = {file = "LICENSE"}
 requires-python = ">=3.13"
-dependencies = []
+dependencies = ["dotenv (>=0.9.9,<0.10.0)"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
