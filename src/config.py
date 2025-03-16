@@ -2,6 +2,8 @@ import os
 import sys
 import logging
 
+from dotenv import load_dotenv
+
 logger = logging.getLogger(__name__)
 
 REQUIRED_ENV_VARS = [
@@ -12,12 +14,20 @@ REQUIRED_ENV_VARS = [
 
 
 def check_env_vars():
+    load_env_file()
+
     missing_vars = [var for var in REQUIRED_ENV_VARS if not os.getenv(var)]
 
     if missing_vars:
         logger.error(
             f"Missing environment variables: {', '.join(missing_vars)}")
         sys.exit(1)
+
+
+def load_env_file():
+    file_path = ".env.prod" if os.getenv(
+        "MODE", "dev").lower() == "prod" else ".env.dev"
+    load_dotenv(file_path)
 
 
 class Config:
