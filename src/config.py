@@ -33,6 +33,6 @@ def load_env_file():
 
 class Config:
     def __init__(self):
-        self.TMDB_API_KEY = os.getenv("TMDB_API_KEY")
-        self.TMDB_READ_ACCESS_TOKEN = os.getenv("TMDB_READ_ACCESS_TOKEN")
-        self.DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+        self.TMDB_API_KEY = str(os.getenv("TMDB_API_KEY"))
+        self.TMDB_READ_ACCESS_TOKEN = str(os.getenv("TMDB_READ_ACCESS_TOKEN"))
+        self.DISCORD_TOKEN = str(os.getenv("DISCORD_TOKEN"))
