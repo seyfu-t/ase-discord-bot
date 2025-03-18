@@ -4,7 +4,7 @@ import logging
 
 from dotenv import load_dotenv
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("Config")
 
 REQUIRED_ENV_VARS = [
     "TMDB_API_KEY",
@@ -22,6 +22,8 @@ def check_env_vars():
         logger.error(
             f"Missing environment variables: {', '.join(missing_vars)}")
         sys.exit(1)
+
+    logger.info("Environment validated successfully")
 
 
 def load_env_file():
