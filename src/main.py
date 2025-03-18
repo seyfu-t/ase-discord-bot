@@ -12,7 +12,7 @@ def main():
     check_env_vars()
     cfg = Config()
 
-    run_bot(cfg.DISCORD_TOKEN)
+    run_bot(cfg.DISCORD_TOKEN, cfg.DISCORD_GUILD_ID)
 
 
 if __name__ == "__main__":
