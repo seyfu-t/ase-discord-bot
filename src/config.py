@@ -12,12 +12,14 @@ class EnvVar(str, Enum):
     TMDB_API_KEY = "TMDB_API_KEY"
     TMDB_READ_ACCESS_TOKEN = "TMDB_READ_ACCESS_TOKEN"
     DISCORD_TOKEN = "DISCORD_TOKEN"
+    DISCORD_GUILD_ID = "DISCORD_GUILD_ID"
 
 
 REQUIRED_ENV_VARS = [
     EnvVar.TMDB_API_KEY,
     EnvVar.TMDB_READ_ACCESS_TOKEN,
     EnvVar.DISCORD_TOKEN,
+    EnvVar.DISCORD_GUILD_ID
 ]
 
 
@@ -29,6 +31,10 @@ def check_env_vars():
     if missing_vars:
         logger.error(
             f"Missing environment variables: {', '.join(missing_vars)}")
+        sys.exit(1)
+
+    if not str(os.getenv("DISCORD_GUILD_ID")).isdigit():
+        logger.error("DISCORD_GUILD_ID must be a valid guild id")
         sys.exit(1)
 
     logger.info("Environment validated successfully")
@@ -47,3 +53,4 @@ class Config:
         self.TMDB_READ_ACCESS_TOKEN = str(
             os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
         self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
+        self.DISCORD_GUILD_ID = int(str(os.getenv(EnvVar.DISCORD_GUILD_ID)))
