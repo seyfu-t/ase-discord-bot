@@ -1,13 +1,19 @@
-import discord
+import logging
+
+logger = logging.getLogger("Dc-Bot")
 
 
-class BotClient(discord.Client):
-    async def on_ready(self):
-        print(f'Logged on as {self.user}!')
+def run_bot(token: str, guild_id: int):
+    import discord
 
+    bot = discord.Bot()
 
-def run_bot(token: str):
-    intents = discord.Intents.default()
-    intents.message_content = True
-    client = BotClient(intents=intents)
-    client.run(token, log_handler=None)
+    @bot.event
+    async def on_ready():
+        logger.info(f"Bot logged in as {bot.user}")
+
+    @bot.slash_command(guild_ids=[guild_id])
+    async def hello(context):
+        await context.respond("Hello!")
+
+    bot.run(token)
