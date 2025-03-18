@@ -3,13 +3,21 @@ import sys
 import logging
 
 from dotenv import load_dotenv
+from enum import Enum
 
 logger = logging.getLogger("Config")
 
+
+class EnvVar(str, Enum):
+    TMDB_API_KEY = "TMDB_API_KEY"
+    TMDB_READ_ACCESS_TOKEN = "TMDB_READ_ACCESS_TOKEN"
+    DISCORD_TOKEN = "DISCORD_TOKEN"
+
+
 REQUIRED_ENV_VARS = [
-    "TMDB_API_KEY",
-    "TMDB_READ_ACCESS_TOKEN",
-    "DISCORD_TOKEN",
+    EnvVar.TMDB_API_KEY,
+    EnvVar.TMDB_READ_ACCESS_TOKEN,
+    EnvVar.DISCORD_TOKEN,
 ]
 
 
@@ -35,6 +43,7 @@ def load_env_file():
 
 class Config:
     def __init__(self):
-        self.TMDB_API_KEY = str(os.getenv("TMDB_API_KEY"))
-        self.TMDB_READ_ACCESS_TOKEN = str(os.getenv("TMDB_READ_ACCESS_TOKEN"))
-        self.DISCORD_TOKEN = str(os.getenv("DISCORD_TOKEN"))
+        self.TMDB_API_KEY = str(os.getenv(EnvVar.TMDB_API_KEY))
+        self.TMDB_READ_ACCESS_TOKEN = str(
+            os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
+        self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
