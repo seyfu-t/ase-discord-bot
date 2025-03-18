@@ -29,8 +29,7 @@ def check_env_vars():
     missing_vars = [var for var in REQUIRED_ENV_VARS if not os.getenv(var)]
 
     if missing_vars:
-        logger.error(
-            f"Missing environment variables: {', '.join(missing_vars)}")
+        logger.error(f"Missing environment variables: {', '.join(missing_vars)}")
         sys.exit(1)
 
     if not str(os.getenv("DISCORD_GUILD_ID")).isdigit():
@@ -42,15 +41,13 @@ def check_env_vars():
 
 def load_env_file():
     load_dotenv(".env")
-    file_path = ".env.prod" if os.getenv(
-        "MODE", "dev").lower() == "prod" else ".env.dev"
+    file_path = ".env.prod" if os.getenv("MODE", "dev").lower() == "prod" else ".env.dev"
     load_dotenv(file_path)
 
 
 class Config:
     def __init__(self):
         self.TMDB_API_KEY = str(os.getenv(EnvVar.TMDB_API_KEY))
-        self.TMDB_READ_ACCESS_TOKEN = str(
-            os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
+        self.TMDB_READ_ACCESS_TOKEN = str(os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
         self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
         self.DISCORD_GUILD_ID = int(str(os.getenv(EnvVar.DISCORD_GUILD_ID)))
