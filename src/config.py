@@ -4,8 +4,11 @@ import logging
 
 from dotenv import load_dotenv
 from enum import Enum
+from pathlib import Path
 
 logger = logging.getLogger("Config")
+
+ROOT_PATH = Path(__file__).resolve().parent.parent
 
 
 class EnvVar(str, Enum):
@@ -40,8 +43,10 @@ def check_env_vars():
 
 
 def load_env_file():
-    load_dotenv(".env")
-    file_path = ".env.prod" if os.getenv("MODE", "dev").lower() == "prod" else ".env.dev"
+    print(ROOT_PATH/".env")
+    load_dotenv(ROOT_PATH / ".env")
+    file_path = ROOT_PATH / (".env.prod" if os.getenv("MODE", "dev").lower()
+                             == "prod" else ".env.dev")
     load_dotenv(file_path)
 
 
