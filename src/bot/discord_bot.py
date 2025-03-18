@@ -10,4 +10,4 @@ def run_bot(token: str):
     intents = discord.Intents.default()
     intents.message_content = True
     client = BotClient(intents=intents)
-    client.run(token)
+    client.run(token, log_handler=None)
