@@ -16,6 +16,7 @@ class EnvVar(str, Enum):
     TMDB_READ_ACCESS_TOKEN = "TMDB_READ_ACCESS_TOKEN"
     DISCORD_TOKEN = "DISCORD_TOKEN"
     DISCORD_GUILD_ID = "DISCORD_GUILD_ID"
+    MODE = "MODE"
 
 
 REQUIRED_ENV_VARS = [
@@ -45,7 +46,7 @@ def check_env_vars():
 def load_env_file():
     print(ROOT_PATH/".env")
     load_dotenv(ROOT_PATH / ".env")
-    file_path = ROOT_PATH / (".env.prod" if os.getenv("MODE", "dev").lower()
+    file_path = ROOT_PATH / (".env.prod" if os.getenv(EnvVar.MODE, "dev").lower()
                              == "prod" else ".env.dev")
     load_dotenv(file_path)
 
