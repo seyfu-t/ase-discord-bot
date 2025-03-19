@@ -19,6 +19,7 @@ class EnvVar(str, Enum):
     DISCORD_AVATAR = "DISCORD_AVATAR"
     DISCORD_BANNER = "DISCORD_BANNER"
     DISCORD_USERNAME = "DISCORD_USERNAME"
+    MODE = "MODE"
 
 
 REQUIRED_ENV_VARS = [
@@ -48,7 +49,7 @@ def check_env_vars():
 def load_env_file():
     print(ROOT_PATH/".env")
     load_dotenv(ROOT_PATH / ".env")
-    file_path = ROOT_PATH / (".env.prod" if os.getenv("MODE", "dev").lower()
+    file_path = ROOT_PATH / (".env.prod" if os.getenv(EnvVar.MODE, "dev").lower()
                              == "prod" else ".env.dev")
     load_dotenv(file_path)
 
