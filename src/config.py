@@ -16,6 +16,9 @@ class EnvVar(str, Enum):
     TMDB_READ_ACCESS_TOKEN = "TMDB_READ_ACCESS_TOKEN"
     DISCORD_TOKEN = "DISCORD_TOKEN"
     DISCORD_GUILD_ID = "DISCORD_GUILD_ID"
+    DISCORD_AVATAR = "DISCORD_AVATAR"
+    DISCORD_BANNER = "DISCORD_BANNER"
+    DISCORD_USERNAME = "DISCORD_USERNAME"
 
 
 REQUIRED_ENV_VARS = [
@@ -56,3 +59,6 @@ class Config:
         self.TMDB_READ_ACCESS_TOKEN = str(os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
         self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
         self.DISCORD_GUILD_ID = int(str(os.getenv(EnvVar.DISCORD_GUILD_ID)))
+        self.DISCORD_AVATAR = str(os.getenv(EnvVar.DISCORD_AVATAR, ROOT_PATH / "assets/avatar.jpg"))
+        self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
+        self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
