@@ -1,6 +1,6 @@
 import logging
-from config import Config
-from util.path_parser import get_bytes_from_uri
+from ase_discord_bot.config import Config
+from ase_discord_bot.util.path_parser import get_bytes_from_uri
 
 logger = logging.getLogger("Dc-Bot")
 

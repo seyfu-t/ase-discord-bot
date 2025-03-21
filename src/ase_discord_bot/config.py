@@ -13,6 +13,10 @@ ROOT_PATH = Path(__file__).resolve().parent.parent
 
 
 def setup_logger():
+    """test comment
+    test
+    test
+    """
     fmt = '%(asctime)s %(levelname)-8s %(name)s %(message)s'
     # Root logger setup
     coloredlogs.install(level='INFO', fmt=fmt)
