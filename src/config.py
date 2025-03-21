@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+import coloredlogs
 
 from dotenv import load_dotenv
 from enum import Enum
@@ -9,6 +10,12 @@ from pathlib import Path
 logger = logging.getLogger("Config")
 
 ROOT_PATH = Path(__file__).resolve().parent.parent
+
+
+def setup_logger():
+    fmt = '%(asctime)s %(levelname)-8s %(name)s %(message)s'
+    # Root logger setup
+    coloredlogs.install(level='INFO', fmt=fmt)
 
 
 class EnvVar(str, Enum):
