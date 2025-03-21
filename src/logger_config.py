@@ -6,5 +6,4 @@ def setup_logger():
     # Root logger setup
     coloredlogs.install(level='INFO', fmt=fmt)
 
-
-
+print("hi")
