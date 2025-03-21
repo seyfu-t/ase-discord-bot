@@ -1,6 +1,5 @@
 from bot.discord_bot import run_bot
-from config import Config, check_env_vars
-from logger_config import setup_logger
+from config import Config, check_env_vars, setup_logger
 import logging
 
 
