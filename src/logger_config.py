@@ -7,3 +7,4 @@ def setup_logger():
     coloredlogs.install(level='INFO', fmt=fmt)
 
 print("hi")
+
