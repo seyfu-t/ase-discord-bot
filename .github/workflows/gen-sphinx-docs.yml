@@ -1,0 +1,40 @@
+name: Build and Deploy Sphinx Docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python -
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies with Poetry
+        run: poetry install
+
+      - name: Generate API docs
+        working-directory: docs
+        run: poetry run sphinx-apidoc -o source/_modules ../src
+
+      - name: Build HTML docs
+        working-directory: docs
+        run: poetry run make html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html
