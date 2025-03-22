@@ -9,7 +9,7 @@ from pathlib import Path
 
 logger = logging.getLogger("Config")
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
+ROOT_PATH = Path(__file__).resolve().parent.parent.parent
 
 
 def setup_logger():
