@@ -30,7 +30,8 @@ source "$VENV_DIR/bin/activate"
 
 # Install deps via poetry
 cd "$SCRIPT_DIR"
-poetry install --no-root
+poetry lock
+poetry install
 
 # Deactivate the venv
 deactivate
