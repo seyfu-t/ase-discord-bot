@@ -23,7 +23,6 @@ def setup_logger():
 
 
 class EnvVar(str, Enum):
-    TMDB_API_KEY = "TMDB_API_KEY"
     TMDB_READ_ACCESS_TOKEN = "TMDB_READ_ACCESS_TOKEN"
     DISCORD_TOKEN = "DISCORD_TOKEN"
     DISCORD_GUILD_ID = "DISCORD_GUILD_ID"
@@ -34,7 +33,6 @@ class EnvVar(str, Enum):
 
 
 REQUIRED_ENV_VARS = [
-    EnvVar.TMDB_API_KEY,
     EnvVar.TMDB_READ_ACCESS_TOKEN,
     EnvVar.DISCORD_TOKEN,
     EnvVar.DISCORD_GUILD_ID
@@ -67,7 +65,6 @@ def load_env_file():
 
 class Config:
     def __init__(self):
-        self.TMDB_API_KEY = str(os.getenv(EnvVar.TMDB_API_KEY))
         self.TMDB_READ_ACCESS_TOKEN = str(os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
         self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
         self.DISCORD_GUILD_ID = int(str(os.getenv(EnvVar.DISCORD_GUILD_ID)))
