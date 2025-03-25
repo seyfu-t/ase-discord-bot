@@ -4,6 +4,7 @@ from discord import ApplicationContext, AutocompleteContext, OptionChoice, optio
 from ase_discord_bot.config import Config
 from ase_discord_bot.util.path_parser import get_bytes_from_uri
 from ase_discord_bot.api_util.model.languages import Language
+from ase_discord_bot.api_util.model.genres import MovieGenre
 
 logger = logging.getLogger("Dc-Bot")
 
@@ -53,7 +54,8 @@ def run_bot(cfg: Config):
     @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
     @option("genre",
             type=int,
-            description="Choose a movie genre")
+            description="Choose a movie genre",
+            choices=MovieGenre.as_choices())
     @option("year",
             type=int,
             description="Choose a release year",
