@@ -6,6 +6,7 @@ import coloredlogs
 from dotenv import load_dotenv
 from enum import Enum
 from pathlib import Path
+from yarl import URL
 
 logger = logging.getLogger("Config")
 
@@ -74,3 +75,7 @@ class Config:
         self.DISCORD_AVATAR = str(os.getenv(EnvVar.DISCORD_AVATAR, ROOT_PATH / "assets/avatar.jpg"))
         self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
         self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
+
+        self.TMDB_AUTH_HEADERS = {"Authorization": f"Bearer {self.TMDB_READ_ACCESS_TOKEN}"}
+        self.TMDB_API_BASE_URL = URL("https://api.themoviedb.org/3")
+        self.TMDB_IMAGES_BASE_URL = URL("https://image.tmdb.org/t/p/w500/")
