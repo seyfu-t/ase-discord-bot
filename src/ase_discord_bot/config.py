@@ -59,7 +59,6 @@ def check_env_vars():
 
 
 def load_env_file():
-    print(ROOT_PATH/".env")
     load_dotenv(ROOT_PATH / ".env")
     file_path = ROOT_PATH / (".env.prod" if os.getenv(EnvVar.MODE, "dev").lower()
                              == "prod" else ".env.dev")
