@@ -14,8 +14,8 @@ def get_poster_url(cfg: Config, path: str) -> str:
 def get_recommended_movie(
     cfg: Config,
     genre: int,
-    year: Optional[int], 
-    min_year: Optional[int], 
+    year: Optional[int],
+    min_year: Optional[int],
     max_year: Optional[int],
     original_language: Optional[Language],
 ) -> MovieResponse | int:
@@ -28,16 +28,17 @@ def get_recommended_movie(
 
     return movie_data
 
+
 def _request_movie_recommendation(
     cfg: Config,
     genre: int,
-    year: Optional[int], 
-    min_year: Optional[int], 
+    year: Optional[int],
+    min_year: Optional[int],
     max_year: Optional[int],
     original_language: Optional[Language],
 ) -> requests.Response:
     query_dict: dict[str, str | int] = {"with_genres": genre}
-    
+
     if year:
         query_dict["primary_release_year"] = year
 
