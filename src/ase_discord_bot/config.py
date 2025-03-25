@@ -31,12 +31,14 @@ class EnvVar(str, Enum):
     DISCORD_BANNER = "DISCORD_BANNER"
     DISCORD_USERNAME = "DISCORD_USERNAME"
     MODE = "MODE"
+    OPEN_ROUTER_API_KEY = "OPEN_ROUTER_API_KEY"
 
 
 REQUIRED_ENV_VARS = [
     EnvVar.TMDB_READ_ACCESS_TOKEN,
     EnvVar.DISCORD_TOKEN,
-    EnvVar.DISCORD_GUILD_ID
+    EnvVar.DISCORD_GUILD_ID,
+    EnvVar.OPEN_ROUTER_API_KEY,
 ]
 
 
@@ -72,6 +74,7 @@ class Config:
         self.DISCORD_AVATAR = str(os.getenv(EnvVar.DISCORD_AVATAR, ROOT_PATH / "assets/avatar.jpg"))
         self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
         self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
+        self.OPEN_ROUTER_API_KEY = str(os.getenv(EnvVar.OPEN_ROUTER_API_KEY))
 
         self.TMDB_AUTH_HEADERS = {"Authorization": f"Bearer {self.TMDB_READ_ACCESS_TOKEN}"}
         self.TMDB_API_BASE_URL = URL("https://api.themoviedb.org/3")
