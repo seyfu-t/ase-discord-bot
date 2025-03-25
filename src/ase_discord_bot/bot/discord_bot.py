@@ -87,6 +87,23 @@ def run_bot(cfg: Config):
         max_year: Optional[int],
         original_language: Optional[str],
     ):
+        errors = []
+
+        if year is not None and (min_year is not None or max_year is not None):
+            errors.append("Pick either a specific year OR a range, not both.")
+
+        if min_year is not None and max_year is not None:
+            if min_year > max_year:
+                errors.append("Minimum year cannot be greater than maximum year.")
+            elif min_year == max_year:
+                # Auto-convert to a single year query
+                year = min_year
+                min_year = max_year = None
+
+        if errors:
+            await context.respond("\n".join(errors))
+            return
+
         await context.respond(f"{genre}, {year}, {min_year}, {max_year}, {original_language}")
 
     bot.run(cfg.DISCORD_TOKEN)
