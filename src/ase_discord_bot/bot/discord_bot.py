@@ -1,8 +1,9 @@
 import logging
 from typing import Optional
-from discord import ApplicationContext, option
+from discord import ApplicationContext, AutocompleteContext, OptionChoice, option
 from ase_discord_bot.config import Config
 from ase_discord_bot.util.path_parser import get_bytes_from_uri
+from ase_discord_bot.api_util.model.languages import Language
 
 logger = logging.getLogger("Dc-Bot")
 
@@ -28,6 +29,27 @@ def run_bot(cfg: Config):
 
         logger.info(f"Bot logged in as {bot.user}")
 
+    async def autocomplete_language(ctx: AutocompleteContext):
+        """
+        Autocompletes language options based on user input.
+        Returns a max of 25 results because of api limitations.
+        """
+        user_input = ctx.value.lower()
+
+        matches = []
+
+        for lang in Language:
+            english = lang.english_name
+            # prefer native name but fallback
+            local = lang.local_name or english
+            code = lang.iso_code
+
+            if user_input in english.lower() or user_input in local.lower():
+                matches.append(OptionChoice(name=local, value=code))
+
+        # Discord API limit of 25
+        return matches[:25]
+
     @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
     @option("genre",
             type=int,
@@ -35,24 +57,25 @@ def run_bot(cfg: Config):
     @option("year",
             type=int,
             description="Choose a release year",
-            min_value=1990,
+            min_value=1970,
             max_value=2025,
             required=False)
     @option("max_year",
             type=int,
             description="Choose a maximum release year",
-            min_value=1990,
+            min_value=1970,
             max_value=2025,
             required=False)
     @option("min_year",
             type=int,
             description="Choose a minumum release year",
-            min_value=1990,
+            min_value=1970,
             max_value=2025,
             required=False)
     @option("original_language",
             type=str,
             description="Choose the original movie language",
+            autocomplete=autocomplete_language,
             required=False)
     async def recommend_movie(
         context: ApplicationContext,
