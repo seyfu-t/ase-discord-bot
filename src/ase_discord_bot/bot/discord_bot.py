@@ -1,4 +1,6 @@
 import logging
+from typing import Optional
+from discord import ApplicationContext, option
 from ase_discord_bot.config import Config
 from ase_discord_bot.util.path_parser import get_bytes_from_uri
 
@@ -27,7 +29,39 @@ def run_bot(cfg: Config):
         logger.info(f"Bot logged in as {bot.user}")
 
     @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
-    async def hello(context):
-        await context.respond("Hello!")
+    @option("genre",
+            type=int,
+            description="Choose a movie genre")
+    @option("year",
+            type=int,
+            description="Choose a release year",
+            min_value=1990,
+            max_value=2025,
+            required=False)
+    @option("max_year",
+            type=int,
+            description="Choose a maximum release year",
+            min_value=1990,
+            max_value=2025,
+            required=False)
+    @option("min_year",
+            type=int,
+            description="Choose a minumum release year",
+            min_value=1990,
+            max_value=2025,
+            required=False)
+    @option("original_language",
+            type=str,
+            description="Choose the original movie language",
+            required=False)
+    async def recommend_movie(
+        context: ApplicationContext,
+        genre: int,
+        year: Optional[int],
+        min_year: Optional[int],
+        max_year: Optional[int],
+        original_language: Optional[str],
+    ):
+        await context.respond(f"{genre}, {year}, {min_year}, {max_year}, {original_language}")
 
     bot.run(cfg.DISCORD_TOKEN)
