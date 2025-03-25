@@ -6,20 +6,24 @@ import coloredlogs
 from dotenv import load_dotenv
 from enum import Enum
 from pathlib import Path
+from yarl import URL
 
 logger = logging.getLogger("Config")
 
-ROOT_PATH = Path(__file__).resolve().parent.parent
+ROOT_PATH = Path(__file__).resolve().parent.parent.parent
 
 
 def setup_logger():
+    """test comment
+    test
+    test
+    """
     fmt = '%(asctime)s %(levelname)-8s %(name)s %(message)s'
     # Root logger setup
     coloredlogs.install(level='INFO', fmt=fmt)
 
 
 class EnvVar(str, Enum):
-    TMDB_API_KEY = "TMDB_API_KEY"
     TMDB_READ_ACCESS_TOKEN = "TMDB_READ_ACCESS_TOKEN"
     DISCORD_TOKEN = "DISCORD_TOKEN"
     DISCORD_GUILD_ID = "DISCORD_GUILD_ID"
@@ -27,13 +31,14 @@ class EnvVar(str, Enum):
     DISCORD_BANNER = "DISCORD_BANNER"
     DISCORD_USERNAME = "DISCORD_USERNAME"
     MODE = "MODE"
+    OPEN_ROUTER_API_KEY = "OPEN_ROUTER_API_KEY"
 
 
 REQUIRED_ENV_VARS = [
-    EnvVar.TMDB_API_KEY,
     EnvVar.TMDB_READ_ACCESS_TOKEN,
     EnvVar.DISCORD_TOKEN,
-    EnvVar.DISCORD_GUILD_ID
+    EnvVar.DISCORD_GUILD_ID,
+    EnvVar.OPEN_ROUTER_API_KEY,
 ]
 
 
@@ -54,7 +59,6 @@ def check_env_vars():
 
 
 def load_env_file():
-    print(ROOT_PATH/".env")
     load_dotenv(ROOT_PATH / ".env")
     file_path = ROOT_PATH / (".env.prod" if os.getenv(EnvVar.MODE, "dev").lower()
                              == "prod" else ".env.dev")
@@ -63,10 +67,15 @@ def load_env_file():
 
 class Config:
     def __init__(self):
-        self.TMDB_API_KEY = str(os.getenv(EnvVar.TMDB_API_KEY))
         self.TMDB_READ_ACCESS_TOKEN = str(os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
         self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
         self.DISCORD_GUILD_ID = int(str(os.getenv(EnvVar.DISCORD_GUILD_ID)))
         self.DISCORD_AVATAR = str(os.getenv(EnvVar.DISCORD_AVATAR, ROOT_PATH / "assets/avatar.jpg"))
         self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
         self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
+        self.OPEN_ROUTER_API_KEY = str(os.getenv(EnvVar.OPEN_ROUTER_API_KEY))
+
+        self.TMDB_AUTH_HEADERS = {"Authorization": f"Bearer {self.TMDB_READ_ACCESS_TOKEN}"}
+        self.TMDB_API_BASE_URL = URL("https://api.themoviedb.org/3")
+        self.TMDB_IMAGES_BASE_URL = URL("https://image.tmdb.org/t/p/w500/")
+        self.OPEN_ROUTER_BASE_URL = URL("https://openrouter.ai/api/v1")

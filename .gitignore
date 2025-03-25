@@ -4,3 +4,4 @@
 .env.dev
 poetry.lock
 __pycache__/
+build/
