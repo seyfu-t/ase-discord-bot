@@ -1,17 +1,20 @@
 import logging
+
 from typing import Optional
 from discord import ApplicationContext, AutocompleteContext, OptionChoice, option
+from ase_discord_bot.api_util.api_calls import get_recommended_movie
+from ase_discord_bot.api_util.model.genres import MovieGenre
+from ase_discord_bot.api_util.model.languages import Language
+from ase_discord_bot.api_util.model.responses import MovieResponse
+from ase_discord_bot.bot.msg_format import format_recommendation
 from ase_discord_bot.config import Config
 from ase_discord_bot.util.path_parser import get_bytes_from_uri
-from ase_discord_bot.api_util.model.languages import Language
-from ase_discord_bot.api_util.model.genres import MovieGenre
 
 logger = logging.getLogger("Dc-Bot")
 
 
 def run_bot(cfg: Config):
     import discord
-
     bot = discord.Bot()
 
     @bot.event
@@ -59,19 +62,19 @@ def run_bot(cfg: Config):
     @option("year",
             type=int,
             description="Choose a release year",
-            min_value=1970,
+            min_value=1990,
             max_value=2025,
             required=False)
     @option("max_year",
             type=int,
             description="Choose a maximum release year",
-            min_value=1970,
+            min_value=1990,
             max_value=2025,
             required=False)
     @option("min_year",
             type=int,
             description="Choose a minumum release year",
-            min_value=1970,
+            min_value=1990,
             max_value=2025,
             required=False)
     @option("original_language",
@@ -100,10 +103,32 @@ def run_bot(cfg: Config):
                 year = min_year
                 min_year = max_year = None
 
+        language = Language.from_fuzzy(original_language)
+
         if errors:
             await context.respond("\n".join(errors))
             return
 
-        await context.respond(f"{genre}, {year}, {min_year}, {max_year}, {original_language}")
+        query_msg = get_recommended_movie(cfg,
+                                          genre=genre,
+                                          year=year,
+                                          min_year=min_year,
+                                          max_year=max_year,
+                                          original_language=language,
+                                          )
+
+        if type(query_msg) is int:
+            msg = f"An unexpected error has occured. Status code {query_msg}"
+            logger.error(msg)
+            await context.respond(msg)
+            return
+        elif type(query_msg) is MovieResponse:
+            await context.defer()
+            msg = format_recommendation(cfg, query_msg)
+            await context.respond(f"{msg}")
+        else:
+            error_msg = f"An error occured. An undefined type was found. {type(query_msg)}"
+            logger.error(error_msg)
+            await context.respond(error_msg)
 
     bot.run(cfg.DISCORD_TOKEN)
