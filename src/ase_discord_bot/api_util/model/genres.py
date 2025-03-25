@@ -1,0 +1,42 @@
+from ase_discord_bot.api_util.model.genre_base import GenreEnum
+
+
+class MovieGenre(GenreEnum):
+    ADVENTURE = ("Adventure", 12)
+    FANTASY = ("Fantasy", 14)
+    ANIMATION = ("Animation", 16)
+    DRAMA = ("Drama", 18)
+    HORROR = ("Horror", 27)
+    ACTION = ("Action", 28)
+    COMEDY = ("Comedy", 35)
+    HISTORY = ("History", 36)
+    WESTERN = ("Western", 37)
+    THRILLER = ("Thriller", 53)
+    CRIME = ("Crime", 80)
+    DOCUMENTARY = ("Documentary", 99)
+    SCIENCE_FICTION = ("Science Fiction", 878)
+    MYSTERY = ("Mystery", 9648)
+    MUSIC = ("Music", 10402)
+    ROMANCE = ("Romance", 10749)
+    FAMILY = ("Family", 10751)
+    WAR = ("War", 10752)
+    TV_MOVIE = ("TV Movie", 10770)
+
+
+class SeriesGenre(GenreEnum):
+    ANIMATION = ("Animation", 16)
+    DRAMA = ("Drama", 18)
+    COMEDY = ("Comedy", 35)
+    WESTERN = ("Western", 37)
+    CRIME = ("Crime", 80)
+    DOCUMENTARY = ("Documentary", 99)
+    MYSTERY = ("Mystery", 9648)
+    FAMILY = ("Family", 10751)
+    ACTION_AND_ADVENTURE = ("Action & Adventure", 10759)
+    KIDS = ("Kids", 10762)
+    NEWS = ("News", 10763)
+    REALITY = ("Reality", 10764)
+    SCI_FI_AND_FANTASY = ("Sci-Fi & Fantasy", 10765)
+    SOAP = ("Soap", 10766)
+    TALK = ("Talk", 10767)
+    WAR_AND_POLITICS = ("War & Politics", 10768)
