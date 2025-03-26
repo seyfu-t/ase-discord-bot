@@ -14,7 +14,7 @@ def main():
     cfg = Config()
     set_config(cfg)
 
-    run_bot(cfg)
+    run_bot()
 
 
 if __name__ == "__main__":
