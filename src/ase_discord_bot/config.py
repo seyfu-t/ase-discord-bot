@@ -14,16 +14,17 @@ ROOT_PATH = Path(__file__).resolve().parent.parent.parent
 
 
 def setup_logger():
-    """test comment
-    test
-    test
+    """
+    Set up the logging configuration with colored logs.
     """
     fmt = '%(asctime)s %(levelname)-8s %(name)s %(message)s'
-    # Root logger setup
     coloredlogs.install(level='INFO', fmt=fmt)
 
 
 class EnvVar(str, Enum):
+    """
+    Enum of all environment variable names.
+    """
     TMDB_READ_ACCESS_TOKEN = "TMDB_READ_ACCESS_TOKEN"
     DISCORD_TOKEN = "DISCORD_TOKEN"
     DISCORD_GUILD_ID = "DISCORD_GUILD_ID"
@@ -43,6 +44,10 @@ REQUIRED_ENV_VARS = [
 
 
 def check_env_vars():
+    """
+    Load and validate the presence and correctness of required environment variables.
+    Logs and exits the program if any required variable is missing or invalid.
+    """
     load_env_file()
 
     missing_vars = [var for var in REQUIRED_ENV_VARS if not os.getenv(var)]
@@ -59,6 +64,10 @@ def check_env_vars():
 
 
 def load_env_file():
+    """
+    Load the appropriate environment file depending on the MODE('.env.dev' or '.env.prod').
+    Always loads just '.env'.
+    """
     load_dotenv(ROOT_PATH / ".env")
     file_path = ROOT_PATH / (".env.prod" if os.getenv(EnvVar.MODE, "dev").lower()
                              == "prod" else ".env.dev")
@@ -66,6 +75,10 @@ def load_env_file():
 
 
 class Config:
+    """
+    Load and expose configuration values from environment variables and constants.
+    """
+
     def __init__(self):
         self.TMDB_READ_ACCESS_TOKEN = str(os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
         self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
