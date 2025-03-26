@@ -11,3 +11,12 @@ class MovieFilter:
     min_year: Optional[int] = None
     max_year: Optional[int] = None
     original_language: Optional[Language] = None
+
+
+@dataclass
+class SeriesFilter:
+    genre: int
+    year: Optional[int] = None
+    min_year: Optional[int] = None
+    max_year: Optional[int] = None
+    original_language: Optional[Language] = None
