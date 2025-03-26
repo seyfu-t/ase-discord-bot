@@ -6,20 +6,21 @@ from ase_discord_bot.api_util.model.responses import MovieResponse
 from ase_discord_bot.config import Config
 from datetime import date
 
+from ase_discord_bot.config_registry import get_config
+
 
 def get_poster_url(cfg: Config, path: str) -> str:
     return (cfg.TMDB_IMAGES_BASE_URL / path).human_repr()
 
 
 def get_recommended_movie(
-    cfg: Config,
     genre: int,
     year: Optional[int],
     min_year: Optional[int],
     max_year: Optional[int],
     original_language: Optional[Language],
 ) -> MovieResponse | int:
-    response = _request_movie_recommendation(cfg, genre, year, min_year, max_year, original_language)
+    response = _request_movie_recommendation(genre, year, min_year, max_year, original_language)
 
     if response.status_code != 200:
         return response.status_code
@@ -30,13 +31,13 @@ def get_recommended_movie(
 
 
 def _request_movie_recommendation(
-    cfg: Config,
     genre: int,
     year: Optional[int],
     min_year: Optional[int],
     max_year: Optional[int],
     original_language: Optional[Language],
 ) -> requests.Response:
+    cfg = get_config()
     query_dict: dict[str, str | int] = {"with_genres": genre}
 
     if year:

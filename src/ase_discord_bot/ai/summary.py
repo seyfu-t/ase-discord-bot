@@ -1,9 +1,11 @@
 from openai import OpenAI
 from ase_discord_bot.api_util.model.responses import Movie
-from ase_discord_bot.config import Config
+from ase_discord_bot.config_registry import get_config
 
 
-def summarize(cfg: Config, movie: Movie) -> str:
+def summarize(movie: Movie) -> str:
+    cfg = get_config()
+
     client = OpenAI(
         base_url=cfg.OPEN_ROUTER_BASE_URL.human_repr(),
         api_key=cfg.OPEN_ROUTER_API_KEY,

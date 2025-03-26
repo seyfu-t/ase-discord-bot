@@ -7,15 +7,16 @@ from ase_discord_bot.api_util.model.genres import MovieGenre
 from ase_discord_bot.api_util.model.languages import Language
 from ase_discord_bot.api_util.model.responses import MovieResponse
 from ase_discord_bot.bot.msg_format import format_recommendation
-from ase_discord_bot.config import Config
+from ase_discord_bot.config_registry import get_config
 from ase_discord_bot.util.path_parser import get_bytes_from_uri
 
 logger = logging.getLogger("Dc-Bot")
 
 
-def run_bot(cfg: Config):
+def run_bot():
     import discord
     bot = discord.Bot()
+    cfg = get_config()
 
     @bot.event
     async def on_ready():
@@ -109,8 +110,7 @@ def run_bot(cfg: Config):
             await context.respond("\n".join(errors))
             return
 
-        query_msg = get_recommended_movie(cfg,
-                                          genre=genre,
+        query_msg = get_recommended_movie(genre=genre,
                                           year=year,
                                           min_year=min_year,
                                           max_year=max_year,
@@ -124,7 +124,7 @@ def run_bot(cfg: Config):
             return
         elif type(query_msg) is MovieResponse:
             await context.defer()
-            msg = format_recommendation(cfg, query_msg)
+            msg = format_recommendation(query_msg)
             await context.respond(f"{msg}")
         else:
             error_msg = f"An error occured. An undefined type was found. {type(query_msg)}"
