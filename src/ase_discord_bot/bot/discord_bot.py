@@ -3,6 +3,7 @@ import logging
 from typing import Optional
 from discord import ApplicationContext, AutocompleteContext, OptionChoice, option
 from ase_discord_bot.api_util.api_calls import get_recommended_movie
+from ase_discord_bot.api_util.model.filters import MovieFilter
 from ase_discord_bot.api_util.model.genres import MovieGenre
 from ase_discord_bot.api_util.model.languages import Language
 from ase_discord_bot.api_util.model.responses import MovieResponse
@@ -110,12 +111,9 @@ def run_bot():
             await context.respond("\n".join(errors))
             return
 
-        query_msg = get_recommended_movie(genre=genre,
-                                          year=year,
-                                          min_year=min_year,
-                                          max_year=max_year,
-                                          original_language=language,
-                                          )
+        movie_filter: MovieFilter = MovieFilter(genre, year, min_year, max_year, language)
+
+        query_msg = get_recommended_movie(movie_filter)
 
         if type(query_msg) is int:
             msg = f"An unexpected error has occured. Status code {query_msg}"
