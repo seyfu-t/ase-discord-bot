@@ -1,12 +1,12 @@
 import logging
 
 from typing import Optional
-from discord import ApplicationContext, AutocompleteContext, OptionChoice, option
+from discord import Bot, ApplicationContext, AutocompleteContext, OptionChoice, errors, option
 from ase_discord_bot.api_util.api_calls import get_recommended_movie, get_recommended_tvshow
 from ase_discord_bot.api_util.model.filters import MovieFilter, TVShowFilter
 from ase_discord_bot.api_util.model.genres import MovieGenre, TVShowGenre
 from ase_discord_bot.api_util.model.languages import Language
-from ase_discord_bot.bot.msg_format import format_recommendation
+from ase_discord_bot.bot.msg_format import format_recommendation, help_command
 from ase_discord_bot.config_registry import get_config
 from ase_discord_bot.util.path_parser import get_bytes_from_uri
 from ase_discord_bot.util.type_checks import is_list_of_movies, is_list_of_tvshows
@@ -15,8 +15,7 @@ logger = logging.getLogger("Dc-Bot")
 
 
 def run_bot():
-    import discord
-    bot = discord.Bot()
+    bot = Bot()
     cfg = get_config()
 
     @bot.event
@@ -33,7 +32,7 @@ def run_bot():
                 await bot.user.edit(username=cfg.DISCORD_USERNAME)
 
             await bot.user.edit(avatar=avatar_bytes, banner=banner_bytes)
-        except discord.errors.HTTPException:
+        except errors.HTTPException:
             logger.error("Rate limit: couldn't change username/avatar/banner.")
 
         logger.info(f"Bot logged in as {bot.user}")
@@ -59,7 +58,7 @@ def run_bot():
         # Discord API limit of 25
         return matches[:cfg.DISCORD_CHOICES_SIZE_LIMIT]
 
-    @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
+    @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID], description="Recommand Movies")
     @option("genre",
             type=int,
             description="🍿 Choose a movie genre",
@@ -138,7 +137,7 @@ def run_bot():
             logger.error(f"An error occurred. Unexpected type: {type(recommendations)}")
             await context.respond("🚫 **A fatal error has occured**")
 
-    @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
+    @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID], description="Recommand TV Shows")
     @option("genre",
             type=int,
             description="🍿 Choose a tv show genre",
@@ -216,5 +215,9 @@ def run_bot():
         else:
             logger.error(f"An error occurred. Unexpected type: {type(recommendations)}")
             await context.respond("🚫 **A fatal error has occured**")
+
+    @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID], description="List all Commands")
+    async def help(context: ApplicationContext):
+        await context.respond(help_command())
 
     bot.run(cfg.DISCORD_TOKEN)
