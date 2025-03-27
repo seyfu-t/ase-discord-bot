@@ -2,13 +2,13 @@ import requests
 
 from ase_discord_bot.api_util.model.filters import MovieFilter
 from ase_discord_bot.api_util.model.responses import MovieResponse
-from ase_discord_bot.config import Config
 from datetime import date
 
 from ase_discord_bot.config_registry import get_config
 
 
-def get_poster_url(cfg: Config, path: str) -> str:
+def get_poster_url(path: str) -> str:
+    cfg = get_config()
     return (cfg.TMDB_IMAGES_BASE_URL / path).human_repr()
 
 
