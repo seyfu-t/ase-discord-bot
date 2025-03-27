@@ -1,6 +1,10 @@
+import logging
+
 from openai import OpenAI
 from ase_discord_bot.api_util.model.responses import Movie, TVShow
 from ase_discord_bot.config_registry import get_config
+
+logger = logging.getLogger("Ai")
 
 
 def summarize(media: Movie | TVShow) -> str:
@@ -21,8 +25,12 @@ def summarize(media: Movie | TVShow) -> str:
             }]
         }]
     )
-
-    content = completion.choices[0].message.content
+    content = None
+    try:
+        content = completion.choices[0].message.content
+    except TypeError:
+        logger.error("Ai has failed, probably a rate-limit by the api.")
+        content = None
 
     if content is not None:
         return content
