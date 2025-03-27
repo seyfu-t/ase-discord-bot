@@ -29,18 +29,18 @@ def _format_recommendation(media: Movie | TVShow) -> str:
         original_title = media.original_name
         release_date = media.first_air_date
 
-    formatted_response.append(f"### *{title}*")
+    formatted_response.append(f"### 🎬 *{title}*")
 
     if title != original_title:
         formatted_response.append(f"-# _{original_title}_")
 
-    formatted_response.append(f"- Released: {date.fromisoformat(release_date).strftime('%d.%m.%Y')}")
+    formatted_response.append(f"🗓️ Released: {date.fromisoformat(release_date).strftime('%d.%m.%Y')}")
 
     ai_summary = summarize(media)
-    formatted_response.append(f"- Description: {ai_summary}")
+    formatted_response.append(f"🎞️ Description: {ai_summary}")
 
     if media.poster_path:
         poster_url = api_calls.get_poster_url(media.poster_path[1:])
-        formatted_response.append(f"![{title}.jpg]({poster_url})")
+        formatted_response.append(f"[{title}.jpg]({poster_url})")
 
     return "\n".join(formatted_response)

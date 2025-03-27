@@ -62,29 +62,29 @@ def run_bot():
     @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
     @option("genre",
             type=int,
-            description="Choose a movie genre",
+            description="🍿 Choose a movie genre",
             choices=MovieGenre.as_choices())
     @option("year",
             type=int,
-            description="Choose a release year",
+            description="🗓️ Choose a release year",
             min_value=cfg.ABSOLUTE_MIN_YEAR,
             max_value=cfg.ABSOLUTE_MAX_YEAR,
             required=False)
     @option("max_year",
             type=int,
-            description="Choose a maximum release year",
+            description="🗓️ Choose a maximum release year",
             min_value=cfg.ABSOLUTE_MIN_YEAR,
             max_value=cfg.ABSOLUTE_MAX_YEAR,
             required=False)
     @option("min_year",
             type=int,
-            description="Choose a minumum release year",
+            description="🗓️ Choose a minumum release year",
             min_value=cfg.ABSOLUTE_MIN_YEAR,
             max_value=cfg.ABSOLUTE_MAX_YEAR,
             required=False)
     @option("original_language",
             type=str,
-            description="Choose the original movie language",
+            description="🌐 Choose the original movie language",
             autocomplete=autocomplete_language,
             required=False)
     async def recommend_movie(
@@ -98,47 +98,44 @@ def run_bot():
         errors = []
 
         if year is not None and (min_year is not None or max_year is not None):
-            errors.append("Pick either a specific year OR a range, not both.")
+            errors.append("⚠️ **Pick either a specific year OR a range, not both.**")
 
         if min_year is not None and max_year is not None:
             if min_year > max_year:
-                errors.append("Minimum year cannot be greater than maximum year.")
+                errors.append("⚠️ **Minimum year cannot be greater than maximum year.**")
             elif min_year == max_year:
                 # Auto-convert to a single year query
                 year = min_year
                 min_year = max_year = None
 
-        language = Language.from_fuzzy(original_language)
-
         if errors:
             await context.respond("\n".join(errors))
             return
 
-        movie_filter: MovieFilter = MovieFilter(genre, year, min_year, max_year, language)
+        language = Language.from_fuzzy(original_language)
 
+        movie_filter: MovieFilter = MovieFilter(genre, year, min_year, max_year, language)
         recommendations = get_recommended_movie(movie_filter)
 
         if len(recommendations) == 0:
-            await context.respond("🚫 **No Matches**")
+            await context.respond("🚫 **No Matches found.**")
             return
 
         # Check what type of list got returned
         if isinstance(recommendations, list):
-            if recommendations and isinstance(recommendations[0], int):
+            if isinstance(recommendations[0], int):
+                logger.error(f"All api requests failed. {recommendations}")
                 msg = f"An unexpected error has occured. Status codes: {recommendations}"
-                logger.error(msg)
                 await context.respond(msg)
             elif is_list_of_movies(recommendations):
                 await context.defer()
                 for msg in format_recommendation(recommendations):
                     await context.followup.send(msg)
             else:
-                error_msg = "An error occurred. Unexpected list contents."
-                logger.error(error_msg)
-                await context.respond(error_msg)
+                logger.error("An error occurred. Unexpected list contents.")
+                await context.respond("🚫 **A fatal error has occured**")
         else:
-            error_msg = f"An error occurred. Unexpected type: {type(recommendations)}"
-            logger.error(error_msg)
-            await context.respond(error_msg)
+            logger.error(f"An error occurred. Unexpected type: {type(recommendations)}")
+            await context.respond("🚫 **A fatal error has occured**")
 
     bot.run(cfg.DISCORD_TOKEN)
