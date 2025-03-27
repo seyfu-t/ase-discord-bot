@@ -14,7 +14,7 @@ class MovieFilter:
 
 
 @dataclass
-class TvShowFilter:
+class TVShowFilter:
     genre: int
     year: Optional[int] = None
     min_year: Optional[int] = None
