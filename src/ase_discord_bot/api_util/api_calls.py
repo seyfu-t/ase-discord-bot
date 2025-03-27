@@ -95,24 +95,33 @@ def _request_recommendation(media_filter: MovieFilter | TVShowFilter) -> list[re
         "vote_count.gte": cfg.MIN_VOTE_COUNT,
     }
 
-    if media_filter.year:
-        query_dict["primary_release_year"] = media_filter.year
-
-    if media_filter.min_year:
-        min_year_date = date(media_filter.min_year, 1, 1)
-        query_dict["primary_release_date.gte"] = min_year_date.strftime("%Y-%m-%d")
-
-    if media_filter.max_year:
-        max_year_date = date(media_filter.max_year, 12, 31)
-        query_dict["primary_release_date.lte"] = max_year_date.strftime("%Y-%m-%d")
-
-    if media_filter.original_language:
-        query_dict["with_original_language"] = media_filter.original_language.iso_code
-
     if isinstance(media_filter, MovieFilter):
         media_type = "movie"
     elif isinstance(media_filter, TVShowFilter):
         media_type = "tv"
+
+    if media_filter.year:
+        if media_type == "movie":
+            query_dict["primary_release_year"] = media_filter.year
+        elif media_type == "tv":
+            query_dict["first_air_date_year"] = media_filter.year
+
+    if media_filter.min_year:
+        min_year_date = date(media_filter.min_year, 1, 1)
+        if media_type == "movie":
+            query_dict["primary_release_date.gte"] = min_year_date.strftime("%Y-%m-%d")
+        elif media_type == "tv":
+            query_dict["first_air_date_year.gte"] = min_year_date.strftime("%Y-%m-%d")
+
+    if media_filter.max_year:
+        max_year_date = date(media_filter.max_year, 12, 31)
+        if media_type == "movie":
+            query_dict["primary_release_date.lte"] = max_year_date.strftime("%Y-%m-%d")
+        elif media_type == "tv":
+            query_dict["first_air_date_year.lte"] = max_year_date.strftime("%Y-%m-%d")
+
+    if media_filter.original_language:
+        query_dict["with_original_language"] = media_filter.original_language.iso_code
 
     query_url = (cfg.TMDB_API_BASE_URL / f"discover/{media_type}").human_repr()
 
