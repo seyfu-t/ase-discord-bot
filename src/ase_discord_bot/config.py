@@ -33,6 +33,7 @@ class EnvVar(str, Enum):
     DISCORD_USERNAME = "DISCORD_USERNAME"
     MODE = "MODE"
     OPEN_ROUTER_API_KEY = "OPEN_ROUTER_API_KEY"
+    MAX_API_PAGES_COUNT = "MAX_API_PAGES_COUNT"
 
 
 REQUIRED_ENV_VARS = [
@@ -60,6 +61,14 @@ def check_and_load_env_vars():
         logger.error("DISCORD_GUILD_ID must be a valid guild id")
         sys.exit(1)
 
+    if max_api := os.getenv(EnvVar.MAX_API_PAGES_COUNT):
+        if not str(max_api).isdigit():
+            logger.error(f"{EnvVar.MAX_API_PAGES_COUNT} must be an integer")
+            sys.exit(1)
+        if int(max_api) < 1:
+            logger.error(f"{EnvVar.MAX_API_PAGES_COUNT} must be a positive integer")
+            sys.exit(1)
+
     logger.info("Environment validated successfully")
 
 
@@ -80,13 +89,15 @@ class Config:
     """
 
     def __init__(self):
+        self.OPEN_ROUTER_API_KEY = str(os.getenv(EnvVar.OPEN_ROUTER_API_KEY))
         self.TMDB_READ_ACCESS_TOKEN = str(os.getenv(EnvVar.TMDB_READ_ACCESS_TOKEN))
         self.DISCORD_TOKEN = str(os.getenv(EnvVar.DISCORD_TOKEN))
         self.DISCORD_GUILD_ID = int(str(os.getenv(EnvVar.DISCORD_GUILD_ID)))
+
         self.DISCORD_AVATAR = str(os.getenv(EnvVar.DISCORD_AVATAR, ROOT_PATH / "assets/avatar.jpg"))
         self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
         self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
-        self.OPEN_ROUTER_API_KEY = str(os.getenv(EnvVar.OPEN_ROUTER_API_KEY))
+        self.MAX_API_PAGES_COUNT = int(os.getenv(EnvVar.MAX_API_PAGES_COUNT, 3))
 
         self.TMDB_AUTH_HEADERS = {"Authorization": f"Bearer {self.TMDB_READ_ACCESS_TOKEN}"}
         self.TMDB_API_BASE_URL = URL("https://api.themoviedb.org/3")
