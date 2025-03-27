@@ -1,7 +1,7 @@
 [project]
 name = "ase-discord-bot"
 version = "0.0.1"
-description = "Discord bot that provides movie/series recommendations"
+description = "Discord bot that provides movie/tvshow recommendations"
 license = { file = "LICENSE" }
 requires-python = ">=3.13"
 dependencies = [
@@ -21,6 +21,7 @@ packages = [{ include = "ase_discord_bot", from = "src" }]
 [tool.poetry.group.dev.dependencies]
 sphinx = "^8.2.3"
 pytest = "^8.3.5"
+pytest-asyncio = "^0.26.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

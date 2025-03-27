@@ -4,10 +4,10 @@
 set -e
 
 # Required so that the script can be started from anywhere
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
 
 # venv path inside project folder
-VENV_DIR="$SCRIPT_DIR/.venv"
+VENV_DIR="$PROJECT_ROOT/.venv"
 
 # Find Python
 if command -v python3 &>/dev/null; then
@@ -29,7 +29,7 @@ fi
 source "$VENV_DIR/bin/activate"
 
 # Install deps via poetry
-cd "$SCRIPT_DIR"
+cd "$PROJECT_ROOT"
 poetry lock
 poetry install
 

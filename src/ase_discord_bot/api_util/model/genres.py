@@ -23,7 +23,7 @@ class MovieGenre(GenreEnum):
     TV_MOVIE = ("TV Movie", 10770)
 
 
-class SeriesGenre(GenreEnum):
+class TVShowGenre(GenreEnum):
     ANIMATION = ("Animation", 16)
     DRAMA = ("Drama", 18)
     COMEDY = ("Comedy", 35)

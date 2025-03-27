@@ -1,6 +1,6 @@
 import requests
 from ase_discord_bot.api_util.model.languages import Language
-from ase_discord_bot.config import check_env_vars, Config
+from ase_discord_bot.config import check_and_load_env_vars, Config
 
 
 def normalize_language_entry(entry):
@@ -17,7 +17,7 @@ def normalize_language_entry(entry):
 
 
 def test_enum_matches_tmdb_api():
-    check_env_vars()
+    check_and_load_env_vars()
     cfg = Config()
     # should be mocked ideally, but using actual api for now
     url = (cfg.TMDB_API_BASE_URL / "configuration/languages").human_repr()
