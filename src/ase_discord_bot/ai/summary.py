@@ -17,10 +17,11 @@ def summarize(movie: Movie) -> str:
             "role": "user",
             "content": [{
                 "type": "text",
-                "text": ("Given the title of a movie and an existing summary,"
-                         "rewrite the summary into a new, concise version that"
-                         "accurately captures the plot. The output must be a"
-                         "standalone summary with no introductory or explanatory"
+                "text": ("Given the title of a movie and an existing summary, "
+                         "rewrite the summary into a new, concise version that "
+                         "accurately captures the plot. The output should be 2 to "
+                         "3 sentences long. The output must be a "
+                         "standalone summary with no introductory or explanatory "
                          "text. Do not include any conversational phrases or "
                          "metadata — only the revised summary itself.\nTitle:"
                          f"{movie.title}\nSummary: {movie.overview}")
