@@ -113,28 +113,28 @@ def run_bot():
 
         movie_filter: MovieFilter = MovieFilter(genre, year, min_year, max_year, language)
 
-        query_msg = get_recommended_movie(movie_filter)
+        recommendations = get_recommended_movie(movie_filter)
 
-        if len(query_msg) == 0:
+        if len(recommendations) == 0:
             await context.respond("🚫 **No Matches**")
             return
 
         # Check what type of list got returned
-        if isinstance(query_msg, list):
-            if query_msg and isinstance(query_msg[0], int):
-                msg = f"An unexpected error has occured. Status codes: {query_msg}"
+        if isinstance(recommendations, list):
+            if recommendations and isinstance(recommendations[0], int):
+                msg = f"An unexpected error has occured. Status codes: {recommendations}"
                 logger.error(msg)
                 await context.respond(msg)
-            elif is_list_of_movies(query_msg):
+            elif is_list_of_movies(recommendations):
                 await context.defer()
-                for msg in format_recommendation(query_msg):
+                for msg in format_recommendation(recommendations):
                     await context.followup.send(msg)
             else:
                 error_msg = "An error occurred. Unexpected list contents."
                 logger.error(error_msg)
                 await context.respond(error_msg)
         else:
-            error_msg = f"An error occurred. Unexpected type: {type(query_msg)}"
+            error_msg = f"An error occurred. Unexpected type: {type(recommendations)}"
             logger.error(error_msg)
             await context.respond(error_msg)
 
