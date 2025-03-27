@@ -34,7 +34,11 @@ def get_recommended_movie(movie_filter: MovieFilter) -> list[Movie] | list[int]:
 
 def _request_movie_recommendation(movie_filter: MovieFilter) -> list[requests.Response]:
     cfg = get_config()
-    query_dict: dict[str, str | int] = {"with_genres": movie_filter.genre}
+    query_dict: dict[str, str | int] = {
+        "with_genres": movie_filter.genre,
+        "sort_by": "MIN_VOTE_COUNT",
+        "vote_count.gte": cfg.MIN_VOTE_COUNT,
+    }
 
     if movie_filter.year:
         query_dict["primary_release_year"] = movie_filter.year
