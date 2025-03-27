@@ -3,6 +3,7 @@ import sys
 import logging
 import coloredlogs
 
+from datetime import date
 from dotenv import load_dotenv
 from enum import Enum
 from pathlib import Path
@@ -114,3 +115,4 @@ class Config:
         self.TMDB_IMAGES_BASE_URL = URL("https://image.tmdb.org/t/p/w500/")
         self.OPEN_ROUTER_BASE_URL = URL("https://openrouter.ai/api/v1")
         self.ABSOLUTE_MIN_YEAR = 1874
+        self.ABSOLUTE_MAX_YEAR = date.today().year
