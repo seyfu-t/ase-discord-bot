@@ -106,7 +106,7 @@ class Config:
         self.DISCORD_AVATAR = str(os.getenv(EnvVar.DISCORD_AVATAR, ROOT_PATH / "assets/avatar.jpg"))
         self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
         self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
-        self.MAX_API_PAGES_COUNT = int(os.getenv(EnvVar.MAX_API_PAGES_COUNT, 3))
+        self.MAX_API_PAGES_COUNT = int(os.getenv(EnvVar.MAX_API_PAGES_COUNT, 15))
         self.MIN_VOTE_COUNT = int(os.getenv(EnvVar.MIN_VOTE_COUNT, 4000))
 
         self.TMDB_AUTH_HEADERS = {"Authorization": f"Bearer {self.TMDB_READ_ACCESS_TOKEN}"}
