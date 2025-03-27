@@ -1,7 +1,7 @@
 import requests
 
 from ase_discord_bot.api_util.model.filters import MovieFilter
-from ase_discord_bot.api_util.model.responses import MovieResponse
+from ase_discord_bot.api_util.model.responses import Movie, MovieResponse
 from datetime import date
 
 from ase_discord_bot.config_registry import get_config
@@ -12,18 +12,27 @@ def get_poster_url(path: str) -> str:
     return (cfg.TMDB_IMAGES_BASE_URL / path).human_repr()
 
 
-def get_recommended_movie(movie_filter: MovieFilter) -> MovieResponse | int:
-    response = _request_movie_recommendation(movie_filter)
+def get_recommended_movie(movie_filter: MovieFilter) -> list[Movie] | list[int]:
+    responses = _request_movie_recommendation(movie_filter)
 
-    if response.status_code != 200:
-        return response.status_code
+    error_codes: list[int] = []
+    movies_data: list[Movie] = []
 
-    movie_data = MovieResponse(**response.json())
+    for response in responses:
+        if response.status_code != 200:
+            error_codes.append(response.status_code)
+        else:
+            movie_data = MovieResponse(**response.json()).results
+            movies_data.extend(movie_data)
 
-    return movie_data
+    # If every single request failed
+    if (len(error_codes) == len(responses)):
+        return error_codes
+
+    return movies_data
 
 
-def _request_movie_recommendation(movie_filter: MovieFilter) -> requests.Response:
+def _request_movie_recommendation(movie_filter: MovieFilter) -> list[requests.Response]:
     cfg = get_config()
     query_dict: dict[str, str | int] = {"with_genres": movie_filter.genre}
 
@@ -43,6 +52,15 @@ def _request_movie_recommendation(movie_filter: MovieFilter) -> requests.Respons
 
     query_url = (cfg.TMDB_API_BASE_URL / "discover/movie").human_repr()
 
-    response = requests.get(url=query_url, params=query_dict, headers=cfg.TMDB_AUTH_HEADERS)
+    responses = []
 
-    return response
+    first_response = requests.get(url=query_url, params=query_dict, headers=cfg.TMDB_AUTH_HEADERS)
+    responses.append(first_response)
+    max_pages_count = int(responses[0].json()["total_pages"])
+
+    for i in range(2, min(max_pages_count, cfg.MAX_API_PAGES_COUNT) + 1):
+        query_dict["page"] = i
+        response = requests.get(url=query_url, params=query_dict, headers=cfg.TMDB_AUTH_HEADERS)
+        responses.append(response)
+
+    return responses
