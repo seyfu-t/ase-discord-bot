@@ -28,10 +28,13 @@ def run_bot():
             logger.error("Logging in has failed.")
             return
 
-        if cfg.DISCORD_USERNAME != bot.user.name:
-            await bot.user.edit(username=cfg.DISCORD_USERNAME)
+        try:
+            if cfg.DISCORD_USERNAME != bot.user.name:
+                await bot.user.edit(username=cfg.DISCORD_USERNAME)
 
-        await bot.user.edit(avatar=avatar_bytes, banner=banner_bytes)
+            await bot.user.edit(avatar=avatar_bytes, banner=banner_bytes)
+        except discord.errors.HTTPException:
+            logger.error("Rate limit: couldn't change username/avatar/banner.")
 
         logger.info(f"Bot logged in as {bot.user}")
 
