@@ -7,6 +7,22 @@ from ase_discord_bot.api_util.model.responses import Movie, TVShow
 
 
 def format_recommendation(results: list[Movie] | list[TVShow]) -> list[str]:
+    """
+    Format a list of media recommendations into displayable strings.
+
+    If there are at least three items in the results, randomly selects three to format.
+    Otherwise, formats all provided items.
+
+    Parameters
+    ----------
+    results : list[Movie] | list[TVShow]
+        The list of movies or TV shows to format.
+
+    Returns
+    -------
+    list[str]
+        A list of formatted recommendation strings.
+    """
     formatted_responses: list[str] = []
 
     picked_movies = random.sample(results, 3) if len(results) >= 3 else results
@@ -18,6 +34,22 @@ def format_recommendation(results: list[Movie] | list[TVShow]) -> list[str]:
 
 
 def _format_recommendation(media: Movie | TVShow) -> str:
+    """
+    Format a single media item into a recommendation string.
+
+    Includes the title, release date, a summarized description,
+    and a poster URL if available.
+
+    Parameters
+    ----------
+    media : Movie | TVShow
+        The media item (movie or TV show) to format.
+
+    Returns
+    -------
+    str
+        A formatted recommendation string.
+    """
     formatted_response: list[str] = []
 
     if isinstance(media, Movie):
@@ -47,6 +79,14 @@ def _format_recommendation(media: Movie | TVShow) -> str:
 
 
 def help_command() -> str:
+    """
+    Generate the help message for the recommendation bot.
+
+    Returns
+    -------
+    str
+        A string containing the help message for available commands.
+    """
     return (
         "**Recommendation Bot Help**\n\n"
         "Welcome! Use the commands below to get movie and TV show recommendations.\n\n"
