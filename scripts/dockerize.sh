@@ -2,7 +2,7 @@
 set -e
 
 # Get the directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
 
 # Build the container
-docker build -f "$SCRIPT_DIR"/docker/Dockerfile -t ase-discord-bot:latest .
+docker build -f "$PROJECT_ROOT"/docker/Dockerfile -t ase-discord-bot:latest .
