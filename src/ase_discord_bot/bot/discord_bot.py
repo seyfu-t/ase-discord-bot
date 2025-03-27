@@ -2,14 +2,14 @@ import logging
 
 from typing import Optional
 from discord import ApplicationContext, AutocompleteContext, OptionChoice, option
-from ase_discord_bot.api_util.api_calls import get_recommended_movie
-from ase_discord_bot.api_util.model.filters import MovieFilter
-from ase_discord_bot.api_util.model.genres import MovieGenre
+from ase_discord_bot.api_util.api_calls import get_recommended_movie, get_recommended_tvshow
+from ase_discord_bot.api_util.model.filters import MovieFilter, TVShowFilter
+from ase_discord_bot.api_util.model.genres import MovieGenre, TVShowGenre
 from ase_discord_bot.api_util.model.languages import Language
 from ase_discord_bot.bot.msg_format import format_recommendation
 from ase_discord_bot.config_registry import get_config
 from ase_discord_bot.util.path_parser import get_bytes_from_uri
-from ase_discord_bot.util.type_checks import is_list_of_movies
+from ase_discord_bot.util.type_checks import is_list_of_movies, is_list_of_tvshows
 
 logger = logging.getLogger("Dc-Bot")
 
@@ -128,6 +128,85 @@ def run_bot():
                 msg = f"An unexpected error has occured. Status codes: {recommendations}"
                 await context.respond(msg)
             elif is_list_of_movies(recommendations):
+                await context.defer()
+                for msg in format_recommendation(recommendations):
+                    await context.followup.send(msg)
+            else:
+                logger.error("An error occurred. Unexpected list contents.")
+                await context.respond("🚫 **A fatal error has occured**")
+        else:
+            logger.error(f"An error occurred. Unexpected type: {type(recommendations)}")
+            await context.respond("🚫 **A fatal error has occured**")
+
+    @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
+    @option("genre",
+            type=int,
+            description="🍿 Choose a tv show genre",
+            choices=TVShowGenre.as_choices())
+    @option("year",
+            type=int,
+            description="🗓️ Choose a release year",
+            min_value=cfg.ABSOLUTE_MIN_YEAR,
+            max_value=cfg.ABSOLUTE_MAX_YEAR,
+            required=False)
+    @option("max_year",
+            type=int,
+            description="🗓️ Choose a maximum release year",
+            min_value=cfg.ABSOLUTE_MIN_YEAR,
+            max_value=cfg.ABSOLUTE_MAX_YEAR,
+            required=False)
+    @option("min_year",
+            type=int,
+            description="🗓️ Choose a minumum release year",
+            min_value=cfg.ABSOLUTE_MIN_YEAR,
+            max_value=cfg.ABSOLUTE_MAX_YEAR,
+            required=False)
+    @option("original_language",
+            type=str,
+            description="🌐 Choose the original tv show language",
+            autocomplete=autocomplete_language,
+            required=False)
+    async def recommend_tvshow(
+        context: ApplicationContext,
+        genre: int,
+        year: Optional[int],
+        min_year: Optional[int],
+        max_year: Optional[int],
+        original_language: Optional[str],
+    ):
+        errors = []
+
+        if year is not None and (min_year is not None or max_year is not None):
+            errors.append("⚠️ **Pick either a specific year OR a range, not both.**")
+
+        if min_year is not None and max_year is not None:
+            if min_year > max_year:
+                errors.append("⚠️ **Minimum year cannot be greater than maximum year.**")
+            elif min_year == max_year:
+                # Auto-convert to a single year query
+                year = min_year
+                min_year = max_year = None
+
+        if errors:
+            await context.respond("\n".join(errors))
+            return
+
+        language = Language.from_fuzzy(original_language)
+
+        tvshow_filter: TVShowFilter = TVShowFilter(genre, year, min_year, max_year, language)
+        recommendations = get_recommended_tvshow(tvshow_filter)
+
+        if len(recommendations) == 0:
+            await context.respond("🚫 **No Matches found.**")
+            return
+
+        # Check what type of list got returned
+        if isinstance(recommendations, list):
+            if isinstance(recommendations[0], int):
+                logger.error(f"All api requests failed. {recommendations}")
+                msg = f"An unexpected error has occured. Status codes: {recommendations}"
+                await context.respond(msg)
+            elif is_list_of_tvshows(recommendations):
                 await context.defer()
                 for msg in format_recommendation(recommendations):
                     await context.followup.send(msg)
