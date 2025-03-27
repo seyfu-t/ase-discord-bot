@@ -4,37 +4,43 @@ from datetime import date
 from ase_discord_bot.ai.summary import summarize
 from ase_discord_bot.api_util import api_calls
 from ase_discord_bot.api_util.model.responses import Movie, TVShow
-from ase_discord_bot.util.type_checks import is_list_of_movies
 
 
 def format_recommendation(results: list[Movie] | list[TVShow]) -> list[str]:
-    if is_list_of_movies(results):
-        formatted_responses: list[str] = []
+    formatted_responses: list[str] = []
 
-        picked_movies = random.sample(results, 3)
-        for movie in picked_movies:
-            formatted_responses.append(_format_recommendation_movie(movie))
+    picked_movies = random.sample(results, 3) if len(results) >= 3 else results
 
-        return formatted_responses
+    for movie in picked_movies:
+        formatted_responses.append(_format_recommendation(movie))
 
-    return []
+    return formatted_responses
 
 
-def _format_recommendation_movie(movie: Movie) -> str:
+def _format_recommendation(media: Movie | TVShow) -> str:
     formatted_response: list[str] = []
 
-    formatted_response.append(f"### *{movie.title}*")
+    if isinstance(media, Movie):
+        title = media.title
+        original_title = media.original_title
+        release_date = media.release_date
+    elif isinstance(media, TVShow):
+        title = media.name
+        original_title = media.original_name
+        release_date = media.first_air_date
 
-    if movie.title != movie.original_title:
-        formatted_response.append(f"-# _{movie.original_title}_")
+    formatted_response.append(f"### *{title}*")
 
-    formatted_response.append(f"- Released: {date.fromisoformat(movie.release_date).strftime('%d.%m.%Y')}")
+    if title != original_title:
+        formatted_response.append(f"-# _{original_title}_")
 
-    ai_summary = summarize(movie)
+    formatted_response.append(f"- Released: {date.fromisoformat(release_date).strftime('%d.%m.%Y')}")
+
+    ai_summary = summarize(media)
     formatted_response.append(f"- Description: {ai_summary}")
 
-    if movie.poster_path:
-        poster_url = api_calls.get_poster_url(movie.poster_path[1:])
-        formatted_response.append(f"![{movie.title}.jpg]({poster_url})")
+    if media.poster_path:
+        poster_url = api_calls.get_poster_url(media.poster_path[1:])
+        formatted_response.append(f"![{title}.jpg]({poster_url})")
 
     return "\n".join(formatted_response)
