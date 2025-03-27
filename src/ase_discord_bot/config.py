@@ -63,7 +63,7 @@ def check_and_load_env_vars():
         sys.exit(1)
 
     if max_api := os.getenv(EnvVar.MAX_API_PAGES_COUNT):
-        if not str(max_api).isdigit():
+        if not max_api.isdigit():
             logger.error(f"{EnvVar.MAX_API_PAGES_COUNT} must be an integer")
             sys.exit(1)
         if int(max_api) < 1:
@@ -71,7 +71,7 @@ def check_and_load_env_vars():
             sys.exit(1)
 
     if min_votes := os.getenv(EnvVar.MIN_VOTE_COUNT):
-        if not str(max_api).isdigit():
+        if not min_votes.isdigit():
             logger.error(f"{EnvVar.MIN_VOTE_COUNT} must be an integer")
             sys.exit(1)
         if int(min_votes) < 0:
