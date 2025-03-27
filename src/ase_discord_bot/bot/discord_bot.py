@@ -115,6 +115,10 @@ def run_bot():
 
         query_msg = get_recommended_movie(movie_filter)
 
+        if len(query_msg) == 0:
+            await context.respond("🚫 **No Matches**")
+            return
+
         # Check what type of list got returned
         if isinstance(query_msg, list):
             if query_msg and isinstance(query_msg[0], int):
