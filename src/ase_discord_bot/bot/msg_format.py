@@ -44,3 +44,26 @@ def _format_recommendation(media: Movie | TVShow) -> str:
         formatted_response.append(f"[{title}.jpg]({poster_url})")
 
     return "\n".join(formatted_response)
+
+
+def help_command() -> str:
+    return (
+        "**Recommendation Bot Help**\n\n"
+        "Welcome! Use the commands below to get movie and TV show recommendations.\n\n"
+        "🔹 **/recommend_movie**\n"
+        "   - **Description:** Get a movie recommendation based on genre, release year, and language.\n"
+        "   - **Parameters:**\n"
+        "       • `genre` (required): Choose a movie genre.\n"
+        "       • `year` (optional): Specify a release year.\n"
+        "       • `min_year` and `max_year` (optional): Define a range for the release year.\n"
+        "       • `original_language` (optional): Specify the movie's original language.\n\n"
+        "🔹 **/recommend_tvshow**\n"
+        "   - **Description:** Get a TV show recommendation based on genre, release year, and language.\n"
+        "   - **Parameters:**\n"
+        "       • `genre` (required): Choose a TV show genre.\n"
+        "       • `year` (optional): Specify a release year.\n"
+        "       • `min_year` and `max_year` (optional): Define a range for the release year.\n"
+        "       • `original_language` (optional): Specify the TV show's original language.\n\n"
+        "🔹 **/help**\n"
+        "   - **Description:** Displays this help message."
+    )
