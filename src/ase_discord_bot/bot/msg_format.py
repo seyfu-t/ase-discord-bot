@@ -3,14 +3,15 @@ import random
 from datetime import date
 from ase_discord_bot.ai.summary import summarize
 from ase_discord_bot.api_util import api_calls
-from ase_discord_bot.api_util.model.responses import Movie, MovieResponse, TVShowResponse
+from ase_discord_bot.api_util.model.responses import Movie, TVShow
+from ase_discord_bot.util.type_checks import is_list_of_movies
 
 
-def format_recommendation(response: MovieResponse | TVShowResponse) -> list[str]:
-    if type(response) is MovieResponse:
+def format_recommendation(results: list[Movie] | list[TVShow]) -> list[str]:
+    if is_list_of_movies(results):
         formatted_responses: list[str] = []
 
-        picked_movies = random.sample(response.results, 3)
+        picked_movies = random.sample(results, 3)
         for movie in picked_movies:
             formatted_responses.append(_format_recommendation_movie(movie))
 
