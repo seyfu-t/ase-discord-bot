@@ -122,8 +122,9 @@ def run_bot():
             return
         elif type(query_msg) is MovieResponse:
             await context.defer()
-            msg = format_recommendation(query_msg)
-            await context.respond(f"{msg}")
+            messages = format_recommendation(query_msg)
+            for msg in messages:
+                await context.followup.send(f"{msg}")
         else:
             error_msg = f"An error occured. An undefined type was found. {type(query_msg)}"
             logger.error(error_msg)
