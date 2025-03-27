@@ -38,12 +38,12 @@ def run_bot():
 
         logger.info(f"Bot logged in as {bot.user}")
 
-    async def autocomplete_language(ctx: AutocompleteContext):
+    async def autocomplete_language(context: AutocompleteContext):
         """
         Autocompletes language options based on user input.
         Returns a max of 25 results because of api limitations.
         """
-        user_input = ctx.value.lower()
+        user_input = context.value.lower()
 
         matches = []
 
