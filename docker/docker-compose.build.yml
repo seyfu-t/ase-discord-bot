@@ -1,0 +1,18 @@
+services:
+  ase-bot:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ase-discord-bot
+    # Comment out as needed
+    # env_file:
+    #   - .env
+    # environment:
+    #   - TMDB_READ_ACCESS_TOKEN=
+    #   - DISCORD_TOKEN=
+    #   - DISCORD_GUILD_ID=
+    #   - DISCORD_AVATAR=
+    #   - DISCORD_BANNER=
+    #   - DISCORD_USERNAME=
+    #   - OPEN_ROUTER_API_KEY=
+    restart: unless-stopped
