@@ -57,7 +57,7 @@ def run_bot():
                 matches.append(OptionChoice(name=local, value=code))
 
         # Discord API limit of 25
-        return matches[:25]
+        return matches[:cfg.DISCORD_CHOICES_SIZE_LIMIT]
 
     @bot.slash_command(guild_ids=[cfg.DISCORD_GUILD_ID])
     @option("genre",
@@ -67,20 +67,20 @@ def run_bot():
     @option("year",
             type=int,
             description="Choose a release year",
-            min_value=1990,
-            max_value=2025,
+            min_value=cfg.ABSOLUTE_MIN_YEAR,
+            max_value=cfg.ABSOLUTE_MAX_YEAR,
             required=False)
     @option("max_year",
             type=int,
             description="Choose a maximum release year",
-            min_value=1990,
-            max_value=2025,
+            min_value=cfg.ABSOLUTE_MIN_YEAR,
+            max_value=cfg.ABSOLUTE_MAX_YEAR,
             required=False)
     @option("min_year",
             type=int,
             description="Choose a minumum release year",
-            min_value=1990,
-            max_value=2025,
+            min_value=cfg.ABSOLUTE_MIN_YEAR,
+            max_value=cfg.ABSOLUTE_MAX_YEAR,
             required=False)
     @option("original_language",
             type=str,
