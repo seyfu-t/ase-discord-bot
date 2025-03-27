@@ -1,7 +1,7 @@
 [project]
 name = "ase-discord-bot"
 version = "0.0.1"
-description = "Discord bot that provides movie/series recommendations"
+description = "Discord bot that provides movie/tvshow recommendations"
 license = { file = "LICENSE" }
 requires-python = ">=3.13"
 dependencies = [
