@@ -43,7 +43,7 @@ REQUIRED_ENV_VARS = [
 ]
 
 
-def check_env_vars():
+def check_and_load_env_vars():
     """
     Load and validate the presence and correctness of required environment variables.
     Logs and exits the program if any required variable is missing or invalid.
