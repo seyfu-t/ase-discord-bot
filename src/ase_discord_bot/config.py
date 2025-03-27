@@ -108,7 +108,7 @@ class Config:
         self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
         self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
         self.MAX_API_PAGES_COUNT = int(os.getenv(EnvVar.MAX_API_PAGES_COUNT, 15))
-        self.MIN_VOTE_COUNT = int(os.getenv(EnvVar.MIN_VOTE_COUNT, 4000))
+        self.MIN_VOTE_COUNT = int(os.getenv(EnvVar.MIN_VOTE_COUNT, 100))
 
         self.TMDB_AUTH_HEADERS = {"Authorization": f"Bearer {self.TMDB_READ_ACCESS_TOKEN}"}
         self.TMDB_API_BASE_URL = URL("https://api.themoviedb.org/3")
