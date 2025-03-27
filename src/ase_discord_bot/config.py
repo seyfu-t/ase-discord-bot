@@ -113,3 +113,4 @@ class Config:
         self.TMDB_API_BASE_URL = URL("https://api.themoviedb.org/3")
         self.TMDB_IMAGES_BASE_URL = URL("https://image.tmdb.org/t/p/w500/")
         self.OPEN_ROUTER_BASE_URL = URL("https://openrouter.ai/api/v1")
+        self.ABSOLUTE_MIN_YEAR = 1874
