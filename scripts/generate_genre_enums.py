@@ -42,7 +42,7 @@ def generate_genres_enums(movie_json, tvshow_json):
     file_lines += "\n".join(movie_lines)
     file_lines += "\n"
     file_lines += "\n"
-    file_lines += "class TvShowGenre(GenreEnum):\n"
+    file_lines += "class TVShowGenre(GenreEnum):\n"
     file_lines += "\n".join(tvshow_lines)
 
     return file_lines
