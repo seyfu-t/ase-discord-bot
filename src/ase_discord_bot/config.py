@@ -34,6 +34,7 @@ class EnvVar(str, Enum):
     MODE = "MODE"
     OPEN_ROUTER_API_KEY = "OPEN_ROUTER_API_KEY"
     MAX_API_PAGES_COUNT = "MAX_API_PAGES_COUNT"
+    MIN_VOTE_COUNT = "MIN_VOTE_COUNT"
 
 
 REQUIRED_ENV_VARS = [
@@ -69,6 +70,14 @@ def check_and_load_env_vars():
             logger.error(f"{EnvVar.MAX_API_PAGES_COUNT} must be a positive integer")
             sys.exit(1)
 
+    if min_votes := os.getenv(EnvVar.MIN_VOTE_COUNT):
+        if not str(max_api).isdigit():
+            logger.error(f"{EnvVar.MIN_VOTE_COUNT} must be an integer")
+            sys.exit(1)
+        if int(min_votes) < 0:
+            logger.error(f"{EnvVar.MIN_VOTE_COUNT} must be a natural number")
+            sys.exit(1)
+
     logger.info("Environment validated successfully")
 
 
@@ -98,6 +107,7 @@ class Config:
         self.DISCORD_BANNER = str(os.getenv(EnvVar.DISCORD_BANNER, ROOT_PATH / "assets/banner.jpg"))
         self.DISCORD_USERNAME = str(os.getenv(EnvVar.DISCORD_USERNAME, "DHBW-ASE"))
         self.MAX_API_PAGES_COUNT = int(os.getenv(EnvVar.MAX_API_PAGES_COUNT, 3))
+        self.MIN_VOTE_COUNT = int(os.getenv(EnvVar.MIN_VOTE_COUNT, 4000))
 
         self.TMDB_AUTH_HEADERS = {"Authorization": f"Bearer {self.TMDB_READ_ACCESS_TOKEN}"}
         self.TMDB_API_BASE_URL = URL("https://api.themoviedb.org/3")
