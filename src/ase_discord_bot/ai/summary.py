@@ -8,6 +8,22 @@ logger = logging.getLogger("Ai")
 
 
 def summarize(media: Movie | TVShow) -> str:
+    """
+    Generate a concise summary for a media item.
+
+    The function attempts to create a new summary using an OpenAI model.
+    If the API call fails or returns no content, it falls back to the original overview.
+
+    Parameters
+    ----------
+    media : Movie | TVShow
+        The media item (movie or TV show) to summarize.
+
+    Returns
+    -------
+    str
+        The generated summary or the original media overview.
+    """
     cfg = get_config()
 
     client = OpenAI(
@@ -39,6 +55,22 @@ def summarize(media: Movie | TVShow) -> str:
 
 
 def _get_text(media: Movie | TVShow) -> str:
+    """
+    Build the input text for the summarization API call.
+
+    The text includes the media title and its original overview, along with instructions
+    for rewriting the summary.
+
+    Parameters
+    ----------
+    media : Movie | TVShow
+        The media item to be summarized.
+
+    Returns
+    -------
+    str
+        The formatted text prompt.
+    """
     if isinstance(media, Movie):
         media_type = "movie"
         title = media.title

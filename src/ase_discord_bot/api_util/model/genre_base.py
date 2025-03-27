@@ -4,6 +4,11 @@ from discord import OptionChoice
 
 
 class GenreEnum(Enum):
+    """
+    Base enumeration class for media genres.
+
+    Each member value is a tuple containing the genre name (str) and its unique identifier (int).
+    """
     @property
     def name_str(self) -> str:
         return self.value[0]

@@ -4,6 +4,11 @@ from difflib import SequenceMatcher
 
 
 class LanguageEnum(Enum):
+    """
+    Base enumeration class for languages.
+
+    Each member is a tuple containing the ISO code, the English name, and an optional local name.
+    """
     @property
     def iso_code(self) -> str:
         return self.value[0]
