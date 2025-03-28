@@ -27,7 +27,11 @@ jobs:
 
       - name: Generate API docs
         working-directory: docs
-        run: poetry run sphinx-apidoc -o source/_modules ../src
+        run: poetry run sphinx-apidoc -f -o source/_modules ../src
+
+      - name: Clean old HTML artefacts
+        working-directory: docs
+        run: poetry run make clean
 
       - name: Build HTML docs
         working-directory: docs
