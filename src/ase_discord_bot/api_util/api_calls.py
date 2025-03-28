@@ -111,14 +111,14 @@ def _request_recommendation(media_filter: MovieFilter | TVShowFilter) -> list[re
         if media_type == "movie":
             query_dict["primary_release_date.gte"] = min_year_date.strftime("%Y-%m-%d")
         elif media_type == "tv":
-            query_dict["first_air_date_year.gte"] = min_year_date.strftime("%Y-%m-%d")
+            query_dict["first_air_date.gte"] = min_year_date.strftime("%Y-%m-%d")
 
     if media_filter.max_year:
         max_year_date = date(media_filter.max_year, 12, 31)
         if media_type == "movie":
             query_dict["primary_release_date.lte"] = max_year_date.strftime("%Y-%m-%d")
         elif media_type == "tv":
-            query_dict["first_air_date_year.lte"] = max_year_date.strftime("%Y-%m-%d")
+            query_dict["first_air_date.lte"] = max_year_date.strftime("%Y-%m-%d")
 
     if media_filter.original_language:
         query_dict["with_original_language"] = media_filter.original_language.iso_code
