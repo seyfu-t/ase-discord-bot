@@ -15,5 +15,10 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents:
 
+   installation
+   configuration
    usage
+   project_structure
+   docker_setup
+   scripts
    _modules/modules

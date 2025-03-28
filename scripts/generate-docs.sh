@@ -14,9 +14,10 @@ fi
 
 poetry install
 
-poetry run sphinx-apidoc -o docs/source/_modules src
+poetry run sphinx-apidoc -f -o docs/source/_modules src
 
 cd docs
+poetry run make clean
 poetry run make html
 
 echo "✅ Docs generated at docs/build/html"
