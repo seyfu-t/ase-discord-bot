@@ -1,0 +1,48 @@
+ase\_discord\_bot package
+=========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ase_discord_bot.ai
+   ase_discord_bot.api_util
+   ase_discord_bot.bot
+   ase_discord_bot.util
+
+Submodules
+----------
+
+ase\_discord\_bot.config module
+-------------------------------
+
+.. automodule:: ase_discord_bot.config
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.config\_registry module
+-----------------------------------------
+
+.. automodule:: ase_discord_bot.config_registry
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.main module
+-----------------------------
+
+.. automodule:: ase_discord_bot.main
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: ase_discord_bot
+   :members:
+   :show-inheritance:
+   :undoc-members:

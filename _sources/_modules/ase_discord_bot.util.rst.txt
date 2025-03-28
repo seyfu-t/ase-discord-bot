@@ -1,0 +1,29 @@
+ase\_discord\_bot.util package
+==============================
+
+Submodules
+----------
+
+ase\_discord\_bot.util.path\_parser module
+------------------------------------------
+
+.. automodule:: ase_discord_bot.util.path_parser
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.util.type\_checks module
+------------------------------------------
+
+.. automodule:: ase_discord_bot.util.type_checks
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: ase_discord_bot.util
+   :members:
+   :show-inheritance:
+   :undoc-members:

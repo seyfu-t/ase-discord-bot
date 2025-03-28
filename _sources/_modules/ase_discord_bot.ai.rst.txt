@@ -1,0 +1,21 @@
+ase\_discord\_bot.ai package
+============================
+
+Submodules
+----------
+
+ase\_discord\_bot.ai.summary module
+-----------------------------------
+
+.. automodule:: ase_discord_bot.ai.summary
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: ase_discord_bot.ai
+   :members:
+   :show-inheritance:
+   :undoc-members:

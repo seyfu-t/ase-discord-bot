@@ -1,0 +1,61 @@
+ase\_discord\_bot.api\_util.model package
+=========================================
+
+Submodules
+----------
+
+ase\_discord\_bot.api\_util.model.filters module
+------------------------------------------------
+
+.. automodule:: ase_discord_bot.api_util.model.filters
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.api\_util.model.genre\_base module
+----------------------------------------------------
+
+.. automodule:: ase_discord_bot.api_util.model.genre_base
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.api\_util.model.genres module
+-----------------------------------------------
+
+.. automodule:: ase_discord_bot.api_util.model.genres
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.api\_util.model.languages module
+--------------------------------------------------
+
+.. automodule:: ase_discord_bot.api_util.model.languages
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.api\_util.model.languages\_base module
+--------------------------------------------------------
+
+.. automodule:: ase_discord_bot.api_util.model.languages_base
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.api\_util.model.responses module
+--------------------------------------------------
+
+.. automodule:: ase_discord_bot.api_util.model.responses
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: ase_discord_bot.api_util.model
+   :members:
+   :show-inheritance:
+   :undoc-members:

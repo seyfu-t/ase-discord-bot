@@ -1,0 +1,29 @@
+ase\_discord\_bot.api\_util package
+===================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ase_discord_bot.api_util.model
+
+Submodules
+----------
+
+ase\_discord\_bot.api\_util.api\_calls module
+---------------------------------------------
+
+.. automodule:: ase_discord_bot.api_util.api_calls
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: ase_discord_bot.api_util
+   :members:
+   :show-inheritance:
+   :undoc-members:

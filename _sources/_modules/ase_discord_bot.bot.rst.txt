@@ -1,0 +1,29 @@
+ase\_discord\_bot.bot package
+=============================
+
+Submodules
+----------
+
+ase\_discord\_bot.bot.discord\_bot module
+-----------------------------------------
+
+.. automodule:: ase_discord_bot.bot.discord_bot
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+ase\_discord\_bot.bot.msg\_format module
+----------------------------------------
+
+.. automodule:: ase_discord_bot.bot.msg_format
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: ase_discord_bot.bot
+   :members:
+   :show-inheritance:
+   :undoc-members:
